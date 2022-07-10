@@ -77,9 +77,9 @@ def processMobi(fname):
 		convertDir(fullInputDir, fnameNoExt)
 		printLog('converting done: ' + fnameNoExt)
 
-		printLog('zip: ' + fnameNoExt);
+		printLog('zip: ' + fnameNoExt)
 		zipDir(fullInputDir, fnameNoExt, fullOutputDir)
-		printLog('zip DONE: ' + fnameNoExt);
+		printLog('zip DONE: ' + fnameNoExt)
 
 		printLog('clearing: ' + fnameNoExt)
 		shutil.rmtree(fullInputDir)

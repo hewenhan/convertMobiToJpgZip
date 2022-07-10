@@ -13,14 +13,12 @@ Use multiple processes to convert Mobi to image folders, or convert to JPG compr
 ## Installation
 
 ```
+pip3 install mobi
+pip3 install ffmpeg-python
 git clone https://github.com/hewenhan/convertMobiToImage.git
 ```
 
 ## Usage
-
-```
-pip3 install mobi
-```
 
 Put the `.mobi` file in the input folder. Execute `convertMobiToJpgZip.py`. After the conversion is complete, The filename is input .mobi name contain converted `.jpg` file's zip file is generated in the output folder.
 
