@@ -50,7 +50,11 @@ def processMobi(fname):
 		printLog('processing SUCCESS: ' + fname)
 
 def main():
-	p = Pool(4)
+	cpus = cpu_count()
+	if cpus > 1:
+		cpus = cpus - 1
+		
+	p = Pool(cpus)
 	for fname in os.listdir(inputDir):
 		res = p.apply_async(processMobi, (fname, ))
 

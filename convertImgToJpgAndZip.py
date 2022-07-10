@@ -68,7 +68,11 @@ def processDir(dirName):
 	printLog('');
 
 def main():
-	p = Pool(4)
+	cpus = cpu_count()
+	if cpus > 1:
+		cpus = cpus - 1
+	
+	p = Pool(cpus)
 	for dirName in os.listdir(inputDir):
 		res = p.apply_async(processDir, (dirName, ))
 
