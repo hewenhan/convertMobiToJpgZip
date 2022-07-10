@@ -40,7 +40,8 @@ def convertDir(fullInputDir, fullOutputDir):
 def zipDir(fullOutputDir):
 	shutil.make_archive(fullOutputDir, 'zip', fullOutputDir)
 
-def clearDir(fullOutputDir):
+def clearDir(fullInputDir, fullOutputDir):
+	shutil.rmtree(fullInputDir)
 	shutil.rmtree(fullOutputDir)
 
 def processDir(dirName):
@@ -61,7 +62,7 @@ def processDir(dirName):
 	printLog('zip DONE: ' + dirName);
 
 	printLog('clearDir: ' + dirName);
-	clearDir(fullOutputDir)
+	clearDir(fullInputDir, fullOutputDir)
 	printLog('clearDir DONE: ' + dirName);
 
 	printLog('processing SUCESS' + dirName);
