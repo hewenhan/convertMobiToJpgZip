@@ -1,6 +1,6 @@
 # pip3 install mobi
 import os
-import json, asyncio, time, datetime, sys, atexit, serial, shutil
+import time, shutil
 from multiprocessing import Pool, cpu_count
 
 inputDir = 'input'
