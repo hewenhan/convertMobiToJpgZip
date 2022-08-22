@@ -1,11 +1,10 @@
 # coding: utf-8
 
-import os, glob, chardet
+import os
 
 # convert file name remove "[Comic]" and "[Mox.moe]" and replace "[]" with "_" from input folder
 def main():
 	inputDir = 'input'
-	outputDir = 'output'
 
 	for root, dirs, files in os.walk(inputDir):
 		for file in files:
