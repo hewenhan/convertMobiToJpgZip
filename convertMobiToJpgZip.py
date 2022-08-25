@@ -2,7 +2,7 @@
 # pip3 install ffmpeg-python
 import ffmpeg
 import os
-import time, shutil
+import time, shutil, mobi
 from multiprocessing import Pool, cpu_count
 
 inputDir = 'input'
@@ -46,10 +46,8 @@ def convertDir(fullInputDir, fnameNoExt):
 		convertFile(fullFile, fnameNoExt, fullOutputDir)
 
 def extractFile(fileFullName):
-	flag = os.system('mobiunpack -i ' + fileFullName)
-	if flag != 0:
-		return False
-	return True
+	tempdir, filepath = mobi.extract(fileFullName)
+	return tempdir, filepath
 
 def processMobi(fname):
 	ext = os.path.splitext(fname)[-1].upper()
@@ -63,26 +61,26 @@ def processMobi(fname):
 		printLog('processing file: ' + fname)
 
 		printLog('extracting: ' + fnameNoExt)
-		r = extractFile(fileFullName)
-		if r == False:
-			printLog('extracting ERROR: ' + fnameNoExt)
-			return
+		tempdir, filepath = extractFile(fileFullName)
 		printLog('extracting done: ' + fnameNoExt)
+
+		printLog(tempdir)
+		printLog(filepath)
 
 		printLog('removeing file: ' + fileFullName)
 		os.remove(fileFullName)
 		printLog('removeing done: ' + fileFullName)
 
 		printLog('converting images: ' + fnameNoExt)
-		convertDir(fullInputDir, fnameNoExt)
+		convertDir(tempdir, fnameNoExt)
 		printLog('converting done: ' + fnameNoExt)
 
 		printLog('zip: ' + fnameNoExt)
-		zipDir(fullInputDir, fnameNoExt, fullOutputDir)
+		zipDir(tempdir, fnameNoExt, fullOutputDir)
 		printLog('zip DONE: ' + fnameNoExt)
 
 		printLog('clearing: ' + fnameNoExt)
-		shutil.rmtree(fullInputDir)
+		shutil.rmtree(tempdir)
 		printLog('clearing done: ' + fnameNoExt)
 
 		printLog('processing SUCCESS: ' + fname)
