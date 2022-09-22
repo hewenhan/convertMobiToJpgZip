@@ -1,13 +1,11 @@
-# pip3 install mobi
-# pip3 install ffmpeg-python
-import ffmpeg
-import os
-import time, shutil, mobi
+#!/usr/bin/env python3
+
+# pip3 install mobi ffmpeg-python py7zr
+import ffmpeg, os, time, shutil, mobi, py7zr
 from multiprocessing import Pool, cpu_count
 
 inputDir = 'input'
 outputDir = 'output'
-# outputDir = 'H:/Comic'
 
 fileObj = open('./run.log', 'a+', encoding='utf-8')
 def printLog(msg):
@@ -24,8 +22,11 @@ def printLog(msg):
 def clearInputFile(fullInputDir):
 	shutil.rmtree(fullInputDir)
 
-def zipDir(fullInputDir, fnameNoExt, fullOutputDir):
-	shutil.make_archive(fullOutputDir, 'zip', fullInputDir + '/' + fnameNoExt)
+def archiveDir(fullInputDir, fnameNoExt, fullOutputDir):
+	with py7zr.SevenZipFile(f"{fullOutputDir}.7z", 'w') as archive:
+		fileFullDir = fullInputDir + '/' + fnameNoExt
+		printLog(f'archiving: {fileFullDir} to {fullOutputDir}.7z')
+		archive.writeall(fullInputDir + '/' + fnameNoExt, '/')
 
 def convertFile(fullFile, fnameNoExt, fullOutputDir):
 	stream = ffmpeg.input(fullFile)
@@ -76,7 +77,7 @@ def processMobi(fname):
 		printLog('converting done: ' + fnameNoExt)
 
 		printLog('zip: ' + fnameNoExt)
-		zipDir(tempdir, fnameNoExt, fullOutputDir)
+		archiveDir(tempdir, fnameNoExt, fullOutputDir)
 		printLog('zip DONE: ' + fnameNoExt)
 
 		printLog('clearing: ' + fnameNoExt)
