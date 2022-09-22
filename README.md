@@ -3,7 +3,7 @@ Convert Mobi To Image
 ====
 
 author:  `Blind Holmes`
-version: `1.0.0`
+version: `1.2.0`
 > Written with [https://stackedit.hewenhan.me/](https://stackedit.hewenhan.me/).
 
 ## Introduction
