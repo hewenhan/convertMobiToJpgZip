@@ -30,7 +30,7 @@ def archiveDir(fullInputDir, fnameNoExt, fullOutputDir):
 
 def convertFile(fullFile, fnameNoExt, fullOutputDir):
 	stream = ffmpeg.input(fullFile)
-	stream = ffmpeg.output(stream, fullOutputDir + '/' + fnameNoExt + '.jpg')
+	stream = ffmpeg.output(stream, fullOutputDir + '/' + fnameNoExt + '.jpg', loglevel='quiet')
 	stream = ffmpeg.overwrite_output(stream)
 	ffmpeg.run(stream)
 

@@ -15,6 +15,7 @@ Use multiple processes to convert Mobi to image folders, or convert to JPG compr
 ```
 pip3 install mobi
 pip3 install ffmpeg-python
+pip3 install py7zr
 git clone https://github.com/hewenhan/convertMobiToImage.git
 ```
 
