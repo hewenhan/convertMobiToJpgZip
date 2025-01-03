@@ -27,6 +27,7 @@ def clearInputFile():
 	shutil.rmtree(inputDir)
 
 def processZipFile(fullFile, fnameNoExt):
+	# extract the zip file
 	with zipfile.ZipFile(fullFile, 'r') as archive:
 		fileList = archive.namelist()
 		if len(fileList) != 1 or fileList[0].endswith('/'):
@@ -37,6 +38,17 @@ def processZipFile(fullFile, fnameNoExt):
 		extractName = fileList[0]
 		archive.extractall(outputDir)
 		archive.close()
+
+	# # extract the 7z file
+	# with py7zr.SevenZipFile(fullFile, 'r') as archive:
+	# 	fileList = archive.getnames()
+	# 	if len(fileList) != 1 or fileList[0].endswith('/'):
+	# 		# only 1 file, extract to outputDir
+	# 		printLog(f'{fnameNoExt} has more than 1 file')
+	# 		return
+		
+	# 	extractName = fileList[0]
+	# 	archive.extractall(outputDir)
 
 	# rename the extracted file
 	extractedFile = os.path.join(outputDir, extractName)
@@ -52,6 +64,12 @@ def processZipFile(fullFile, fnameNoExt):
 		printLog(f'archiving: {newExtractedFile} to {zipOutputFile}.7z')
 		archive.write(newExtractedFile, os.path.basename(newExtractedFile))
 
+	# # archive the extracted file
+	# zipOutputFile = os.path.join(outputDir, fnameNoExt)
+	# with zipfile.ZipFile(f"{zipOutputFile}.zip", 'w') as archive:
+	# 	printLog(f'archiving: {newExtractedFile} to {zipOutputFile}.zip')
+	# 	archive.write(newExtractedFile, os.path.basename(newExtractedFile))
+
 	# remove the extracted file
 	os.remove(newExtractedFile)
 
@@ -63,7 +81,7 @@ def processFile(fname):
 	ext = os.path.splitext(fname)[-1].upper()
 	fnameNoExt = os.path.splitext(fname)[0]
 	fullFile = os.path.join(inputDir, fname)
-	if ext in [".ZIP"]:
+	if ext in [".7Z", "ZIP"]:
 		printLog(f'fullFile: {fullFile}')
 		processZipFile(fullFile, fnameNoExt)
 
