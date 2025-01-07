@@ -77,11 +77,11 @@ def processZipFile(fullFile, fnameNoExt):
 	os.remove(fullFile)
 
 def processFile(fname):
-	printLog('processing file: ' + fname)
+	# printLog('processing file: ' + fname)
 	ext = os.path.splitext(fname)[-1].upper()
 	fnameNoExt = os.path.splitext(fname)[0]
 	fullFile = os.path.join(inputDir, fname)
-	if ext in [".7Z", "ZIP"]:
+	if ext in [".ZIP"]:
 		printLog(f'fullFile: {fullFile}')
 		processZipFile(fullFile, fnameNoExt)
 
@@ -94,6 +94,7 @@ def main():
 
 	p = Pool(cpus)
 	for fname in os.listdir(inputDir):
+		# processFile(fname)
 		res = p.apply_async(processFile, (fname, ))
 
 	p.close()
