@@ -10,7 +10,7 @@ def main():
 	for root, dirs, files in os.walk(inputDir):
 		for file in files:
 			fullFilename = os.path.join(root, file)
-			convertedFilename = file.replace('[Kox]', '').replace('[Comic]', '').replace('[Vol.moe]', '').replace('[Mox.moe]', '').replace('[', '').replace(']', '_').replace(' ', '_').replace('(', '_').replace(')', '_')
+			convertedFilename = file.replace('[Kmoe]', '').replace('[Comic]', '').replace('[Vol.moe]', '').replace('[Mox.moe]', '').replace('[', '').replace(']', '_').replace(' ', '_').replace('(', '_').replace(')', '_')
 			convertedFullFilename = os.path.join(root, convertedFilename)
 			os.rename(fullFilename, convertedFullFilename)
 			print(convertedFullFilename)

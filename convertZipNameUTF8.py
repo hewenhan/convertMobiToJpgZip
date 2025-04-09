@@ -58,17 +58,17 @@ def processZipFile(fullFile, fnameNoExt):
 	printLog(f'renaming {extractedFile} to {newExtractedFile}')
 	os.rename(extractedFile, newExtractedFile)
 
-	# archive the extracted file
-	zipOutputFile = os.path.join(outputDir, fnameNoExt)
-	with py7zr.SevenZipFile(f"{zipOutputFile}.7z", 'w') as archive:
-		printLog(f'archiving: {newExtractedFile} to {zipOutputFile}.7z')
-		archive.write(newExtractedFile, os.path.basename(newExtractedFile))
-
 	# # archive the extracted file
 	# zipOutputFile = os.path.join(outputDir, fnameNoExt)
-	# with zipfile.ZipFile(f"{zipOutputFile}.zip", 'w') as archive:
-	# 	printLog(f'archiving: {newExtractedFile} to {zipOutputFile}.zip')
+	# with py7zr.SevenZipFile(f"{zipOutputFile}.7z", 'w') as archive:
+	# 	printLog(f'archiving: {newExtractedFile} to {zipOutputFile}.7z')
 	# 	archive.write(newExtractedFile, os.path.basename(newExtractedFile))
+
+	# archive the extracted file
+	zipOutputFile = os.path.join(outputDir, fnameNoExt)
+	with zipfile.ZipFile(f"{zipOutputFile}.zip", 'w') as archive:
+		printLog(f'archiving: {newExtractedFile} to {zipOutputFile}.zip')
+		archive.write(newExtractedFile, os.path.basename(newExtractedFile))
 
 	# remove the extracted file
 	os.remove(newExtractedFile)

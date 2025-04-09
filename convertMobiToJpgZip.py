@@ -23,10 +23,16 @@ def clearInputFile(fullInputDir):
 	shutil.rmtree(fullInputDir)
 
 def archiveDir(fullInputDir, fnameNoExt, fullOutputDir):
-	with py7zr.SevenZipFile(f"{fullOutputDir}.7z", 'w') as archive:
-		fileFullDir = fullInputDir + '/' + fnameNoExt
-		printLog(f'archiving: {fileFullDir} to {fullOutputDir}.7z')
-		archive.writeall(fullInputDir + '/' + fnameNoExt, '/')
+	# zip archive
+	fileFullDir = fullInputDir + '/' + fnameNoExt
+	printLog(f'archiving: {fileFullDir} to {fullOutputDir}.zip')
+	shutil.make_archive(fullOutputDir, 'zip', fileFullDir)
+
+	# 7z archive
+	# with py7zr.SevenZipFile(f"{fullOutputDir}.7z", 'w') as archive:
+	# 	fileFullDir = fullInputDir + '/' + fnameNoExt
+	# 	printLog(f'archiving: {fileFullDir} to {fullOutputDir}.7z')
+	# 	archive.writeall(fullInputDir + '/' + fnameNoExt, '/')
 
 def convertFile(fullFile, fnameNoExt, fullOutputDir):
 	stream = ffmpeg.input(fullFile)
