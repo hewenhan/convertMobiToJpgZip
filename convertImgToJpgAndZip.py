@@ -21,21 +21,32 @@ def printLog(msg):
 		print(e)
 
 def convertFile(fullFile, fnameNoExt, fullOutputDir):
+	# print(fullFile, fnameNoExt, fullOutputDir)
+
+	# ffmpeg convert
 	stream = ffmpeg.input(fullFile)
-	stream = ffmpeg.output(stream, fullOutputDir + '/' + fnameNoExt + '.jpg')
+	stream = ffmpeg.output(stream, fullOutputDir + '/' + fnameNoExt + '.jpg', loglevel='quiet')
 	stream = ffmpeg.overwrite_output(stream)
 	ffmpeg.run(stream)
+
+	# # just copy file
+	# shutil.copy(fullFile, fullOutputDir)
 
 def convertDir(fullInputDir, fullOutputDir):
 	if os.path.exists(fullOutputDir) == False:
 		os.mkdir(fullOutputDir)
 
 	for fname in os.listdir(fullInputDir):
+		if os.path.isdir(fullInputDir + '/' + fname):
+			convertDir(fullInputDir + '/' + fname, fullOutputDir + '/' + fname)
+			continue
 		fnameNoExt = os.path.splitext(fname)[0]
+		ext = os.path.splitext(fname)[-1].upper()
+		if ext != '.JPG' and ext != '.JPEG' and ext != '.PNG':
+			continue
 
 		fullFile = fullInputDir + '/' + fname
 		convertFile(fullFile, fnameNoExt, fullOutputDir)
-		print(fnameNoExt)
 
 def zipDir(fullOutputDir):
 	shutil.make_archive(fullOutputDir, 'zip', fullOutputDir)
@@ -51,22 +62,22 @@ def processDir(dirName):
 	if os.path.isdir(fullInputDir) == False:
 		return
 
-	printLog('processing' + dirName);
+	printLog('processing' + dirName)
 
-	printLog('convert: ' + dirName);
+	printLog('convert: ' + dirName)
 	convertDir(fullInputDir, fullOutputDir)
-	printLog('convert DONE: ' + dirName);
+	printLog('convert DONE: ' + dirName)
 
-	printLog('zip: ' + dirName);
+	printLog('zip: ' + dirName)
 	zipDir(fullOutputDir)
-	printLog('zip DONE: ' + dirName);
+	printLog('zip DONE: ' + dirName)
 
-	printLog('clearDir: ' + dirName);
+	printLog('clearDir: ' + dirName)
 	clearDir(fullInputDir, fullOutputDir)
-	printLog('clearDir DONE: ' + dirName);
+	printLog('clearDir DONE: ' + dirName)
 
-	printLog('processing SUCESS' + dirName);
-	printLog('');
+	printLog('processing SUCESS' + dirName)
+	printLog('')
 
 def main():
 	cpus = cpu_count()

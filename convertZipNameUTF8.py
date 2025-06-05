@@ -66,7 +66,7 @@ def processZipFile(fullFile, fnameNoExt):
 
 	# archive the extracted file
 	zipOutputFile = os.path.join(outputDir, fnameNoExt)
-	with zipfile.ZipFile(f"{zipOutputFile}.zip", 'w') as archive:
+	with zipfile.ZipFile(f"{zipOutputFile}.zip", 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
 		printLog(f'archiving: {newExtractedFile} to {zipOutputFile}.zip')
 		archive.write(newExtractedFile, os.path.basename(newExtractedFile))
 
